@@ -29,12 +29,15 @@ namespace ApiDemo.Repositores
 
         public void DeleteItem(Guid id)
         {
-            throw new NotImplementedException();
+            int itemIndex = _items.FindIndex(x => x.Id == id);
+            _items.RemoveAt(itemIndex);
         }
 
         public void UpdateItem(Item item)
         {
-            throw new NotImplementedException();
+            int itemIndex = _items.FindIndex(x => x.Id == item.Id);
+            _items[itemIndex] = item;
+            
         }
     }
 }
