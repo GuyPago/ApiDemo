@@ -24,7 +24,7 @@ namespace ApiDemo.Repositores
         }
         public void CreateItem(Item item)
         {
-            throw new NotImplementedException();
+            _items.Add(item);
         }
 
         public void DeleteItem(Guid id)
