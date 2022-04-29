@@ -28,5 +28,20 @@ namespace ApiDemo.Controllers
             Item? item = _repository.GetItem(id);
             return item == null ? NotFound() : item.AsDto();
         }
+
+        [HttpPost]
+        public ActionResult<ItemDto> CreateItem(CreateItemDto itemDto)
+        {
+            Item newItem = new Item
+            {
+                Id = Guid.NewGuid(),
+                Name = itemDto.Name,
+                Price = itemDto.Price,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
+
+            _repository.CreateItem(newItem);
+            return CreatedAtAction(nameof(GetItem), new {Id = newItem.Id}, newItem);
+        }
     }
 }
