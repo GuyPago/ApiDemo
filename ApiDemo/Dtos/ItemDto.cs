@@ -7,5 +7,4 @@
             public decimal Price { get; set; }
             public DateTimeOffset CreatedDate { get; set; }
         }
-    }
 }
