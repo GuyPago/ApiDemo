@@ -2,9 +2,9 @@
 {
     public record Item
     {
-        private Guid Id { get; set; }
-        private string Name { get; set; }
-        private decimal Price { get; set; }
-        private DateTimeOffset CreatedDate { get; set; }
+        public Guid Id { get; set; }
+        public string? Name { get; set; }
+        public decimal Price { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
     }
 }
