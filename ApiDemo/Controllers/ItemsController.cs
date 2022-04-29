@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiDemo.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ItemsController : ControllerBase
     {
         private readonly IItemsRepository? _repository;
@@ -41,7 +41,16 @@ namespace ApiDemo.Controllers
             };
 
             _repository.CreateItem(newItem);
-            return CreatedAtAction(nameof(GetItem), new {Id = newItem.Id}, newItem);
+            return CreatedAtAction(nameof(GetItem), new {Id = newItem.Id}, newItem.AsDto());
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteItem(Guid id)
+        {
+            Item? itemToRemove = _repository.GetItem(id);
+            if (itemToRemove == null)  return NotFound($"Couldn't find item with id of {id}"); 
+            _repository.DeleteItem(id);
+            return NoContent();
         }
     }
 }
