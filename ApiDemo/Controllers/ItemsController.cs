@@ -41,15 +41,29 @@ namespace ApiDemo.Controllers
             };
 
             _repository.CreateItem(newItem);
-            return CreatedAtAction(nameof(GetItem), new {Id = newItem.Id}, newItem.AsDto());
+            return CreatedAtAction(nameof(GetItem), new { Id = newItem.Id }, newItem.AsDto());
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteItem(Guid id)
         {
             Item? itemToRemove = _repository.GetItem(id);
-            if (itemToRemove == null)  return NotFound($"Couldn't find item with id of {id}"); 
+            if (itemToRemove == null) return NotFound($"Couldn't find item with id of {id}");
             _repository.DeleteItem(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateItem(Guid id, CreateItemDto itemDto)
+        {
+            Item? existingItem = _repository.GetItem(id);
+            if (existingItem == null) return NotFound($"Couldn't find item with id of {id}");
+            Item UpdatedItem = existingItem with
+            {
+                Name = itemDto.Name,
+                Price = itemDto.Price
+            };
+            _repository.UpdateItem(UpdatedItem);
             return NoContent();
         }
     }

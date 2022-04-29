@@ -35,7 +35,9 @@ namespace ApiDemo.Repositores
 
         public void UpdateItem(Item item)
         {
-            throw new NotImplementedException();
+            int itemIndex = _items.FindIndex(x => x.Id == item.Id);
+            _items[itemIndex] = item;
+            
         }
     }
 }
