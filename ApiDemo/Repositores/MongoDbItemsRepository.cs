@@ -17,17 +17,18 @@ namespace ApiDemo.Repositores
 
         public void CreateItem(Item item)
         {
-            _itemsCollection.InsertOne()
+            _itemsCollection.InsertOne(item);
         }
 
         public void DeleteItem(Guid id)
         {
-            throw new NotImplementedException();
+            _itemsCollection.DeleteOne(x => x.Id == id);
         }
 
         public Item? GetItem(Guid id)
         {
-            throw new NotImplementedException();
+            Item foundItem = _itemsCollection.Find(x => x.Id == id).FirstOrDefault();
+            return foundItem;
         }
 
         public IEnumerable<Item> GetItems()
