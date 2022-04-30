@@ -1,8 +1,16 @@
 using ApiDemo.Repositores;
+using ApiDemo.Settings;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<IMongoClient>(ServiceProvider =>
+{
+    var settings = builder.Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+    return new MongoClient(settings.connectionString);
+});
+
 builder.Services.AddSingleton<IItemsRepository, InMemoryItemsRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
