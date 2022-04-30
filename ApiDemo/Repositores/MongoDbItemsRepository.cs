@@ -1,4 +1,5 @@
 ﻿using ApiDemo.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApiDemo.Repositores
@@ -33,12 +34,12 @@ namespace ApiDemo.Repositores
 
         public IEnumerable<Item> GetItems()
         {
-            throw new NotImplementedException();
+            return _itemsCollection.Find(new BsonDocument()).ToList();
         }
 
         public void UpdateItem(Item item)
         {
-            throw new NotImplementedException();
+            _itemsCollection.ReplaceOne(existingItem => existingItem.Id == item.Id, item);
         }
     }
 }
