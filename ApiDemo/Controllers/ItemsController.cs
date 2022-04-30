@@ -17,20 +17,20 @@ namespace ApiDemo.Controllers
         }
 
         [HttpGet] // Get /Item
-        public IEnumerable<ItemDto> GetItems()
+        public async Task<IEnumerable<ItemDto>> GetItemsAsync()
         {
-            return _repository.GetItems().Select(x => x.AsDto());
+            return (await _repository.GetItemsAsync()).Select(x => x.AsDto());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ItemDto> GetItem(Guid id)
+        public async Task<ActionResult<ItemDto>> GetItemAsync(Guid id)
         {
-            Item? item = _repository.GetItem(id);
+            Item? item = await _repository.GetItemAsync(id);
             return item == null ? NotFound() : item.AsDto();
         }
 
         [HttpPost]
-        public ActionResult<ItemDto> CreateItem(CreateItemDto itemDto)
+        public async Task<ActionResult<ItemDto>> CreateItemAsync(CreateItemDto itemDto)
         {
             Item newItem = new Item
             {
@@ -40,30 +40,30 @@ namespace ApiDemo.Controllers
                 CreatedDate = DateTimeOffset.UtcNow
             };
 
-            _repository.CreateItem(newItem);
-            return CreatedAtAction(nameof(GetItem), new { Id = newItem.Id }, newItem.AsDto());
+            await _repository.CreateItemAsync(newItem);
+            return CreatedAtAction(nameof(GetItemAsync), new { Id = newItem.Id }, newItem.AsDto());
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteItem(Guid id)
+        public async Task<ActionResult> DeleteItem(Guid id)
         {
-            Item? itemToRemove = _repository.GetItem(id);
+            Item? itemToRemove = await _repository.GetItemAsync(id);
             if (itemToRemove == null) return NotFound($"Couldn't find item with id of {id}");
-            _repository.DeleteItem(id);
+            await _repository.DeleteItemAsync(id);
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateItem(Guid id, CreateItemDto itemDto)
+        public async Task<ActionResult> UpdateItem(Guid id, CreateItemDto itemDto)
         {
-            Item? existingItem = _repository.GetItem(id);
+            Item? existingItem = await _repository.GetItemAsync(id);
             if (existingItem == null) return NotFound($"Couldn't find item with id of {id}");
             Item UpdatedItem = existingItem with
             {
                 Name = itemDto.Name,
                 Price = itemDto.Price
             };
-            _repository.UpdateItem(UpdatedItem);
+            await _repository.UpdateItemAsync(UpdatedItem);
             return NoContent();
         }
     }
