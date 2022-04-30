@@ -16,30 +16,30 @@ namespace ApiDemo.Repositores
             _itemsCollection = database.GetCollection<Item>(_collectionName);
         }
 
-        public void CreateItem(Item item)
+        public async Task CreateItemAsync(Item item)
         {
-            _itemsCollection.InsertOne(item);
+            await _itemsCollection.InsertOneAsync(item);
         }
 
-        public void DeleteItem(Guid id)
+        public async Task DeleteItemAsync(Guid id)
         {
-            _itemsCollection.DeleteOne(x => x.Id == id);
+            await _itemsCollection.DeleteOneAsync(x => x.Id == id);
         }
 
-        public Item? GetItem(Guid id)
+        public async Task<Item?> GetItemAsync(Guid id)
         {
-            Item foundItem = _itemsCollection.Find(x => x.Id == id).FirstOrDefault();
+            Item foundItem = await _itemsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
             return foundItem;
         }
 
-        public IEnumerable<Item> GetItems()
+        public async Task<IEnumerable<Item>> GetItemsAsync()
         {
-            return _itemsCollection.Find(new BsonDocument()).ToList();
+            return (await _itemsCollection.FindAsync(new BsonDocument())).ToList();
         }
 
-        public void UpdateItem(Item item)
+        public async Task UpdateItemAsync(Item item)
         {
-            _itemsCollection.ReplaceOne(existingItem => existingItem.Id == item.Id, item);
+            await _itemsCollection.ReplaceOneAsync(existingItem => existingItem.Id == item.Id, item);
         }
     }
 }
