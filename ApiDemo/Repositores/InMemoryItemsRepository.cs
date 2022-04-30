@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiDemo.Repositores
 {
-    public class InMemoryRepository : IItemsRepository 
+    public class InMemoryItemsRepository : IItemsRepository 
     { 
     
         private List<Item> _items = new List<Item>()
@@ -37,7 +37,6 @@ namespace ApiDemo.Repositores
         {
             int itemIndex = _items.FindIndex(x => x.Id == item.Id);
             _items[itemIndex] = item;
-            
         }
     }
 }

@@ -3,7 +3,7 @@ using ApiDemo.Repositores;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IItemsRepository, InMemoryRepository>();
+builder.Services.AddSingleton<IItemsRepository, InMemoryItemsRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
