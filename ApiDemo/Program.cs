@@ -11,7 +11,7 @@ builder.Services.AddSingleton<IMongoClient>(ServiceProvider =>
     return new MongoClient(settings.connectionString);
 });
 
-builder.Services.AddSingleton<IItemsRepository, InMemoryItemsRepository>();
+builder.Services.AddSingleton<IItemsRepository, MongoDbItemsRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
